@@ -4,7 +4,10 @@
   "description": "",
   "main": "blockchain.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "dev-test": "nodemon dev-test",
+    "start": "node ./app",
+    "dev": "nodemon ./app"
   },
   "repository": {
     "type": "git",
@@ -21,6 +24,9 @@
     "jest": "^27.0.1"
   },
   "dependencies": {
-    "crypto-js": "^4.0.0"
+    "body-parser": "^1.19.0",
+    "crypto-js": "^4.0.0",
+    "expres": "0.0.5",
+    "express": "^4.17.1"
   }
 }
