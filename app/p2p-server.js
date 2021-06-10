@@ -6,7 +6,7 @@ const peers = process.env.PEERS ? process.env.PEERS.split(',') : [];
 
 
 class P2pServer {
-	construction(blockchain) {
+	constructor(blockchain) {
 		this.blockchain = blockchain;
 		this.sockets = [];
 	}
@@ -20,6 +20,7 @@ class P2pServer {
 		this.connectToPeers();
 
 		console.log(`info: listening for peer-to-peer connection on ${P2P_PORT}`)
+
 	}
 
 	// peer address will look like ws://localhost:5001
@@ -33,6 +34,28 @@ class P2pServer {
 	connectSocket(socket) {
 		this.sockets.push(socket);
 		console.log('** info: Socket connected...')
+
+		this.messageHandler(socket);
+		this.sendChain(socket);
+	}
+
+	messageHandler(socket) {
+		socket.on('message', message => {
+			const data = JSON.parse(message);
+			console.log("** Info: data received = ", data);
+		});
+
+		this.blockchain.replaceChain(data);
+	}
+
+	// share and set the agreed chain among all the peers of the network
+	syncChain() {
+		this.socket.forEach(socket => this.sendChain(socket));
+	}
+
+	// Helper
+	sendChain(socket) {
+		socket.send(JSON.stringify(this.blockchain.chain));
 	}
 
 }
