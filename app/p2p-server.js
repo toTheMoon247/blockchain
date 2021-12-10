@@ -1,4 +1,5 @@
 
+const debug = require('debug')('info');
 const Websocket = require('ws');
 
 const P2P_PORT = process.env.P2P_PORT || 5001;
@@ -42,15 +43,14 @@ class P2pServer {
 	messageHandler(socket) {
 		socket.on('message', message => {
 			const data = JSON.parse(message);
-			console.log("** Info: data received = ", data);
+			debug("** Info: data received = ", data);
+			this.blockchain.replaceChain(data);
 		});
-
-		// this.blockchain.replaceChain(data);
 	}
 
 	// share and set the agreed chain among all the peers of the network
-	syncChain() {
-		this.socket.forEach(socket => this.sendChain(socket));
+	syncChains() {
+		this.sockets.forEach(socket => this.sendChain(socket));
 	}
 
 	// Helper
