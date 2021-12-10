@@ -45,7 +45,7 @@ class P2pServer {
 			console.log("** Info: data received = ", data);
 		});
 
-		this.blockchain.replaceChain(data);
+		// this.blockchain.replaceChain(data);
 	}
 
 	// share and set the agreed chain among all the peers of the network
