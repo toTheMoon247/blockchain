@@ -9,6 +9,9 @@
     "start": "node ./app",
     "dev": "nodemon ./app"
   },
+  "jest": {
+    "testEnvironment": "node"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/toTheMoon247/blockchain.git"
@@ -21,15 +24,17 @@
   },
   "homepage": "https://github.com/toTheMoon247/blockchain#readme",
   "devDependencies": {
-    "jest": "^27.0.1"
+    "jest": "^27.4.4"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
     "crypto-js": "^4.0.0",
     "debug": "^4.3.3",
+    "elliptic": "^6.5.4",
     "expres": "0.0.5",
     "express": "^4.17.1",
     "nodemon": "^2.0.15",
+    "uuid": "^8.3.2",
     "ws": "^7.4.6"
   }
 }
