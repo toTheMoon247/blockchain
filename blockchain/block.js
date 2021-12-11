@@ -1,5 +1,4 @@
-const SHA256 = require('crypto-js/sha256');
-
+const ChainUtil = require('../chain-util');
 class Block {
 	constructor(timestamp, lastHash, hash, data) {
 		this.timestamp = timestamp;
@@ -29,7 +28,7 @@ class Block {
 	}
 
 	static hash(timestamp, lastHash, data) {
-		return SHA256(`${timestamp}${lastHash}${data}`).toString();
+		return ChainUtil.hash(`${timestamp}${lastHash}${data}`).toString();
 	}
 
 	// blockHash recieves a block, extract its components and return the hash that they should generates.
