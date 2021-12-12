@@ -11,12 +11,12 @@ const app = express();
 const bc = new Blockchain();
 const wallet = new Wallet();
 const tp = new TransactionPool();
-const p2pServer = new P2pServer(bc);
+const p2pServer = new P2pServer(bc, tp);
 
 app.use(bodyParser.json());
 
 app.get('/blocks', (req, res) => {
-	res.json(bc.chain);
+	res.json(bc.chain, tp);
 });
 
 app.post('/mine', (req, res) => {
@@ -36,7 +36,12 @@ app.post('/transact', (req, res) => {
 	const recipient = req.body.recipient
 	const amount = req.body.amount;
 	const transaction = wallet.createTransaction(recipient, amount, tp);
+	p2pServer.broadcastTransaction(transaction);
 	res.redirect('/transactions');
+});
+
+app.get('/public-key', (req, res) => {
+	res.json({ publicKey: wallet.publicKey });
 });
 
 app.listen(HTTP_PORT, () => console.log(`listening on port ${HTTP_PORT}...`));
