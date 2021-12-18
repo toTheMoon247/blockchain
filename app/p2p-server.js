@@ -52,6 +52,9 @@ class P2pServer {
 				case 'transaction':
 					this.transactionPool.updateOrAddTransaction(data.transaction);
 					break;
+				case 'clear_transactions':
+					this.transactionPool.clear();
+					break;
 			}
 		});
 	}
@@ -72,6 +75,12 @@ class P2pServer {
 
 	broadcastTransaction(trasnsaction) {
 		this.sockets.forEach(socket => this.sendTransaction(socket, trasnsaction));
+	}
+
+	broadcastClearTransaction() {
+		this.sockets.forEach(socket => socket.send(JSON.stringify(
+			{type: 'clear_transactions'}
+		)));
 	}
 	
 	sendTransaction(socket, transaction) {

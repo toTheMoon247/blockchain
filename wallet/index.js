@@ -41,6 +41,13 @@ class Wallet {
 
 		return transaction;
 	}
+
+	// to review: note that address is not in the constructor
+	static blockChainWallet() {
+		const blockChainWallet = new this();
+		blockChainWallet.address = 'blockchain-wallet';
+		return blockChainWallet;
+	}
 }
 
 module.exports = Wallet;
