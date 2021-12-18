@@ -1,9 +1,13 @@
 const Wallet = require("../wallet");
 const Transaction = require("../wallet/transaction");
+const Blockchain = require('../blockchain');
+
 
 class Miner {
 	constructor(blockchain, transactionPool, wallet, p2pServer) {
+		/** @type {Blockchain} */
 		this.blockchain = blockchain;
+
 		this.transactionPool = transactionPool;
 		this.wallet = wallet;
 		this.p2pServer = p2pServer;
