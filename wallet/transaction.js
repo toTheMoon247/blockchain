@@ -28,10 +28,15 @@ class Transaction {
 		return this;
 	}
 
-	static newTransaction(senderWallet, recipient, amount) {
+	static transactionWithOutputs(senderWallet, outputs) {
 		const transaction = new this();
-		debug("transaction object is: ", transaction);
+		transaction.outputs.push(...outputs);
+		Transaction.signTransaction(transaction, senderWallet);
+		return transaction;
+	}
 
+	static newTransaction(senderWallet, recipient, amount) {
+		
 		// check that there is enough balance in the wallet
 		if (amount > senderWallet.balance) {
 			console.log(`Can not send ${amount}. Insufficent balance in the wallet`);
@@ -39,7 +44,7 @@ class Transaction {
 		}
 
 		// create outputs for the transaction object
-		transaction.outputs.push(...[
+		const outputs = [
 			{
 				amount: senderWallet.balance - amount,
 				address: senderWallet.publicKey
@@ -48,11 +53,15 @@ class Transaction {
 				amount: amount,
 				address: recipient
 			}
-		]);
+		];
 
-		Transaction.signTransaction(transaction, senderWallet);
+		return Transaction.transactionWithOutputs(senderWallet, outputs);
+	}
 
-		return transaction;
+	static rewardTransaction(minerWallet, blockchainWallet) {
+		// 25 is the mining reward. TODO: export it to config 
+		const output = [{ amount: 25, address: minerWallet.publicKey}]; 
+		return Transaction.transactionWithOutputs(blockchainWallet,output);
 	}
 
 	static signTransaction(transaction, senderWallet) {

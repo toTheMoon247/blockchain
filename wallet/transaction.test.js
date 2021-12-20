@@ -70,4 +70,15 @@ describe('Transaction', () => {
 			expect(nextRecipientOutput.amount).toEqual(nextAmount);
 		});
 	});
+
+	describe("creating a reward transaction", () => {
+		beforeEach(() => {
+			transaction = Transaction.rewardTransaction(wallet, Wallet.blockChainWallet());
+		});
+
+		it(`rewards the miner's wallet`, () => {
+			// 25 is the mining reward
+			expect(transaction.outputs.find(output => output.address === wallet.publicKey).amount).toEqual(25);
+		});
+	});
 });
