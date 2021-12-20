@@ -66,7 +66,7 @@ class Wallet {
 			const lastTransactionSentByThisWallet = transactionsSentByThisWallet.reduce((prev, current) => prev.input.timestamp > current.input.timestamp ? prev : current);
 			const outputAfterLastTransactionMadeByThisWallet = lastTransactionSentByThisWallet.outputs.find(output => output.address === this.publicKey).amount;
 			balance = outputAfterLastTransactionMadeByThisWallet;
-			startTime = recentInput.input.timestamp;
+			startTime = lastTransactionSentByThisWallet.input.timestamp;
 		}
 
 		transactions.forEach(transaction => {
